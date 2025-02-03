@@ -1,0 +1,193 @@
+/*
+ *   RMIT University Vietnam
+ *   Course: COSC2767 Systems Deployment and Operations
+ *   Semester: 2024C
+ *   Assessment: Assignment 2
+ *   Author: Le Dinh Ngoc Quynh, Le Minh Duc
+ *   ID: s3791159, s4000577
+ *   Created  date: 21 Dec 2024
+ *   Last modified: 21 Dec 2024
+ */
+
+def getRepoURL() {
+  sh "git config --get remote.origin.url > .git/remote-url"
+  return readFile(".git/remote-url").trim()
+}
+
+def getCommitSha() {
+  sh "git rev-parse HEAD > .git/current-commit"
+  return readFile(".git/current-commit").trim()
+}
+
+def updateGithubCommitStatus(build) {
+  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
+  repoUrl = getRepoURL()
+  commitSha = getCommitSha()
+
+  step([
+    $class: 'GitHubCommitStatusSetter',
+    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+    statusResultSource: [
+      $class: 'ConditionalStatusResultSource',
+      results: [
+        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
+        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
+        [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+      ]
+    ]
+  ])
+}
+
+def buildAndPushDockerImage(context, repo, tag = "latest") {
+    dir(context) {
+        def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        echo "Commit hash: ${commitHash}"
+
+        def timestamp = sh(script: 'date +%s', returnStdout: true).trim()
+        echo "Timestamp: ${timestamp}"
+
+        sh """
+            docker build -t "${repo}:${commitHash}" -t "${repo}:${tag}" \
+                --build-arg BUILD_TIMESTAMP=${timestamp} \
+                --build-arg VERSION=${commitHash} .
+        """
+
+        withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
+            sh """
+                echo ${DOCKER_HUB_CREDENTIALS} | docker login -u quynhethereal --password-stdin
+                docker push ${repo} --all-tags
+            """
+        }
+    }
+}
+
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'Node 16'
+    }
+
+    environment {
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-credentials'
+        DOCKER_HUB_FE_REPO = 'quynhethereal/fe-client-devops-course'
+        DOCKER_HUB_BE_REPO = 'quynhethereal/be-server-devops-course'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Running Checkout stage...'
+                checkout scmGit(branches: [[name: env.BRANCH_NAME]], extensions: [], userRemoteConfigs: [[credentialsId: 'ssh-key-github', url: 'git@github.com:RMIT-Vietnam-Teaching/cosc2767-assignment-2-group-2024c-devops-team-1.git']])
+            }
+        }
+
+        stage('Build FE') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run FE Tests') {
+            steps {
+                script {
+                    echo 'Running tests in the client directory...'
+                    dir('client') {
+                        sh 'npm run test'
+                    }
+                }
+            }
+        }
+
+        stage('Build BE') {
+            steps {
+                script {
+                    echo 'Installing server dependencies...'
+                    dir('server') {
+                        sh 'npm update'
+                        sh 'npm install'
+                    }
+                }
+            }
+        }
+
+        stage('Run BE Tests') {
+            steps {
+                script {
+                    echo 'Running tests in the server directory...'
+                    dir('server') {
+                        sh 'npm test'
+                    }
+                }
+            }
+        }
+        
+        stage('(Run Integration Tests)') {
+            steps {
+                script {
+                    sh """
+                        docker compose -f docker-compose.yml up --build --abort-on-container-exit
+                    """
+
+                    sh """
+                        docker compose -f docker-compose.yml down
+                    """
+
+                    sh """
+                        sudo docker system prune -a -f || true
+                    """
+                }
+            }
+        }
+
+        stage('Build and push FE Image') {
+            steps {
+                script {
+                    buildAndPushDockerImage('client', DOCKER_HUB_FE_REPO)
+                }
+            }
+        }
+
+        stage('Build and push BE Image') {
+            steps {
+                script {
+                    buildAndPushDockerImage('server', DOCKER_HUB_BE_REPO)
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished!'
+            archiveArtifacts artifacts: 'screenshots/*.png', fingerprint: true
+        }
+
+        success {
+            updateGithubCommitStatus(currentBuild)
+            cleanWs()
+            sh 'sudo docker system prune -a -f || true'
+        }
+
+        failure {
+            emailext(
+                to: 's4000577@rmit.edu.vn',
+                from: 'ducle7963@gmail.com',
+                replyTo: 'ducle7963@gmail.com',
+                subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    The build has failed.
+
+                    Job: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Build URL: ${env.BUILD_URL}
+                """
+            )
+            updateGithubCommitStatus(currentBuild)
+            cleanWs()
+            sh 'sudo docker system prune -a -f || true'
+        }
+    }
+}

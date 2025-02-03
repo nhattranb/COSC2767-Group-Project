@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio component Radio component matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <ul>
+      <li>
+        <label>
+          <input
+            name="sorting"
+            type="radio"
+            value="Newest First"
+          />
+          Newest First
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            name="sorting"
+            type="radio"
+            value="Price High to Low"
+          />
+          Price High to Low
+        </label>
+      </li>
+      <li>
+        <label>
+          <input
+            name="sorting"
+            type="radio"
+            value="Price Low to High"
+          />
+          Price Low to High
+        </label>
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;

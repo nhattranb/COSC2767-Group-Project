@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Switch correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="switch-checkbox custom-class"
+    id="tooltip-switch1"
+  >
+    <input
+      checked=""
+      class="switch-checkbox-input"
+      id="switch1"
+      type="checkbox"
+    />
+    <label
+      class="switch-label"
+      for="switch1"
+    >
+      <span
+        class="switch-label-text"
+      >
+        Toggle Switch 
+      </span>
+      <span
+        class="switch-label-toggle"
+      />
+    </label>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,20 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: be-hpa
+spec:
+  maxReplicas: 6
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: be
+  targetCPUUtilizationPercentage: 50

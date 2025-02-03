@@ -1,0 +1,37 @@
+services:
+  server:
+    platform: linux/amd64
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-production}
+        MONGO_URI: mongodb+srv://admin:admin@cluster0.bscva.mongodb.net/?retryWrites=true&w=majority
+        CLIENT_URL: http://client:80
+    ports:
+      - "4000:4000"
+
+  client:
+    platform: linux/amd64
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+        API_URL: http://server:4000/api
+    ports:
+      - "8888:80"
+
+  server-integration:
+    platform: linux/amd64
+    build:
+      context: ./server
+      dockerfile: integration.Dockerfile
+      args:
+        MONGO_URI: mongodb+srv://admin:admin@cluster0.bscva.mongodb.net/?retryWrites=true&w=majority
+        CLIENT_URL: http://client:80
+    depends_on:
+      - client
+      - server
+    volumes:
+      - ./screenshots:/app/screenshots

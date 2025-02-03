@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Authentication HOC redirects to login when not authenticated 1`] = `<DocumentFragment />`;
+
+exports[`Authentication HOC renders protected component when authenticated 1`] = `
+<DocumentFragment>
+  <div>
+    Protected Component
+  </div>
+</DocumentFragment>
+`;

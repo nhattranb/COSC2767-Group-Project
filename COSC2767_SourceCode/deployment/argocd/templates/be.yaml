@@ -1,0 +1,28 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: be
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RMIT-Vietnam-Teaching/cosc2767-assignment-2-group-2024c-devops-team-1.git
+    targetRevision: HEAD
+    path: deployment/argocd/be
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RangeSlider component matches snapshot with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="rc-slider slider"
+  >
+    <div
+      class="rc-slider-rail"
+    />
+    <div
+      class="rc-slider-track rc-slider-track-1"
+      style="left: 19.19191919191919%; width: 30.303030303030305%;"
+    />
+    <div
+      class="rc-slider-step"
+    />
+    <div
+      aria-disabled="false"
+      aria-valuemax="100"
+      aria-valuemin="1"
+      aria-valuenow="20"
+      class="rc-slider-handle rc-slider-handle-1"
+      role="slider"
+      style="left: 19.19191919191919%; transform: translateX(-50%);"
+      tabindex="0"
+    />
+    <div
+      aria-disabled="false"
+      aria-valuemax="100"
+      aria-valuemin="1"
+      aria-valuenow="50"
+      class="rc-slider-handle rc-slider-handle-2"
+      role="slider"
+      style="left: 49.494949494949495%; transform: translateX(-50%);"
+      tabindex="0"
+    />
+    <div
+      class="rc-slider-mark"
+    />
+  </div>
+</DocumentFragment>
+`;

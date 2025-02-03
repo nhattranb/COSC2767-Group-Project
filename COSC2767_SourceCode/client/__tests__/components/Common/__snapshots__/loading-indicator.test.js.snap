@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingIndicator component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="spinner-container position-fixed overlay "
+  >
+    <div
+      class="spinner position-fixed overlay"
+    />
+  </div>
+</DocumentFragment>
+`;

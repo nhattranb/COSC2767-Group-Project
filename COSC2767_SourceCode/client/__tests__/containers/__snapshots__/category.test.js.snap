@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Category component renders correctly for admin user 1`] = `
+<DocumentFragment>
+  <div
+    class="category-dashboard"
+  >
+    <div
+      class="page-404"
+    >
+      The page you are looking for was not found.
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Category component renders correctly for regular user 1`] = `
+<DocumentFragment>
+  <div
+    class="category-dashboard"
+  >
+    <div
+      class="page-404"
+    >
+      The page you are looking for was not found.
+    </div>
+  </div>
+</DocumentFragment>
+`;

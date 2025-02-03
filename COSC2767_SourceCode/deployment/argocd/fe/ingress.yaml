@@ -1,0 +1,40 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: production
+  annotations:
+    # Required annotations for AWS ALB
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+spec:
+  ingressClassName: alb
+  rules:
+    - host:
+      http:
+        paths:
+          # Frontend React App
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fe-svc
+                port:
+                  number: 80
+          # Backend API
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: be-svc
+                port:
+                  number: 4000

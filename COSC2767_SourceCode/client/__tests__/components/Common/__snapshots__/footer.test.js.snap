@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component Footer component matches snapshot 1`] = `
+<DocumentFragment>
+  <footer
+    class="footer"
+  >
+    <div
+      class="container"
+    >
+      <div
+        class="footer-content"
+      >
+        <div
+          class="footer-block"
+        >
+          <div
+            class="block-title"
+          >
+            <h3
+              class="text-uppercase"
+            >
+              Support
+            </h3>
+          </div>
+          <div
+            class="block-content"
+          >
+            <ul>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/contact"
+                >
+                  Get in Touch
+                </a>
+              </li>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/sell"
+                >
+                  Partner with Us
+                </a>
+              </li>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/shipping"
+                >
+                  Delivery Info
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="footer-block"
+        >
+          <div
+            class="block-title"
+          >
+            <h3
+              class="text-uppercase"
+            >
+              Quick Links
+            </h3>
+          </div>
+          <div
+            class="block-content"
+          >
+            <ul>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/contact"
+                >
+                  Get in Touch
+                </a>
+              </li>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/sell"
+                >
+                  Partner with Us
+                </a>
+              </li>
+              <li
+                class="footer-link"
+              >
+                <a
+                  href="/shipping"
+                >
+                  Delivery Info
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="footer-block"
+        >
+          <div
+            class="block-title"
+          >
+            <h3
+              class="text-uppercase"
+            >
+              Stay Updated
+            </h3>
+            <div
+              class="newsletter-form"
+            >
+              <p>
+                Subscribe to Our Newsletter
+              </p>
+              <form>
+                <div
+                  class="subscribe"
+                >
+                  <div
+                    class="input-box inline-btn-box invalid"
+                  >
+                    <div
+                      class="input-text-block"
+                    >
+                      <input
+                        autocomplete="on"
+                        class="input-text"
+                        name="email"
+                        placeholder="Enter Your Email Address"
+                        type="text"
+                        value="test@example.com"
+                      />
+                      <button
+                        class="input-btn custom-btn-primary md text-only icon-left "
+                        style="border-radius: 3px;"
+                        type="submit"
+                      >
+                        <span
+                          class="btn-text"
+                        >
+                          Join Now
+                        </span>
+                      </button>
+                    </div>
+                    <span
+                      class="invalid-message"
+                    >
+                      I
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer-copyright"
+      >
+        <span>
+          © 2025 RMIT Store. All rights reserved.
+        </span>
+      </div>
+      <ul
+        class="footer-social-item"
+      >
+        <li>
+          <a
+            href="/#facebook"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <span
+              class="facebook-icon"
+            />
+          </a>
+        </li>
+        <li>
+          <a
+            href="/#instagram"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <span
+              class="instagram-icon"
+            />
+          </a>
+        </li>
+        <li>
+          <a
+            href="/#twitter"
+            rel="noreferrer noopener"
+            target="_blank"
+          >
+            <span
+              class="twitter-icon"
+            />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+</DocumentFragment>
+`;

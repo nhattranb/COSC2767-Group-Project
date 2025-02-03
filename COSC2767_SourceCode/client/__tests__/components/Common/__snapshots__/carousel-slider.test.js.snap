@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CarouselSlider component renders correctly with autoPlay and keyBoardControl props 1`] = `
+<DocumentFragment>
+  <div
+    class="react-multi-carousel-list carousel-container "
+  >
+    <ul
+      class="react-multi-carousel-track "
+      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`CarouselSlider component renders correctly with custom autoPlaySpeed and ssr props 1`] = `
+<DocumentFragment>
+  <div
+    class="react-multi-carousel-list carousel-container "
+  >
+    <ul
+      class="react-multi-carousel-track "
+      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`CarouselSlider component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="react-multi-carousel-list carousel-container "
+  >
+    <ul
+      class="react-multi-carousel-track "
+      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`CarouselSlider component renders correctly with showDots and infinite props 1`] = `
+<DocumentFragment>
+  <div
+    class="react-multi-carousel-list carousel-container "
+  >
+    <ul
+      class="react-multi-carousel-track "
+      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`CarouselSlider component renders correctly with swipeable and draggable props 1`] = `
+<DocumentFragment>
+  <div
+    class="react-multi-carousel-list carousel-container "
+  >
+    <ul
+      class="react-multi-carousel-track "
+      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+    />
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,28 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Install Helm
+  shell: |
+    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+    chmod 700 get_helm.sh
+    ./get_helm.sh
+
+- name: Verify Helm Installation
+  command: helm version
+  register: helm_output
+  failed_when: helm_output.rc != 0
+
+- name: Add Helm AWS Load Balancer Controller repository
+  shell: |
+    helm repo add eks https://aws.github.io/eks-charts
+    helm repo update eks
+
+- name: Install AWS Load Balancer Controller
+  shell: |
+    helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n lb --set clusterName=MyEKSCluster --create-namespace

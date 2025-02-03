@@ -1,0 +1,60 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Install python3-pip
+  package:
+    name: python3-pip
+    state: present
+
+- name: Install necessary Python packages for Kubernetes and validation
+  pip:
+    name: "{{ item.name }}"
+    version: "{{ item.version | default(omit) }}"
+    state: present
+    executable: pip3
+  loop:
+    - { name: "kubernetes" } # Kubernetes Python client
+    - { name: "kubernetes-validate" } # Kubernetes validate library
+    - { name: "jsonschema", version: ">=4.0.0" } # JSON Schema 4.x+
+
+- name: Check if kubeconfig file exists
+  stat:
+    path: "{{ kubeconfig_path }}"
+  register: kubeconfig_stat
+  failed_when: kubeconfig_stat.stat.exists == false
+
+- name: Install kubectl
+  shell: |
+    curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/amd64/kubectl
+    chmod +x ./kubectl
+    mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+  args:
+    creates: /root/bin/kubectl
+
+- name: Check if kubeconfig is valid (using kubectl)
+  shell: /root/bin/kubectl cluster-info
+  become: true
+  register: kubeconfig_check
+  failed_when: kubeconfig_check.rc != 0
+  changed_when: false
+  when: kubeconfig_stat.stat.exists == true
+
+- name: Install ArgoCD CLI
+  shell: |
+    curl -sSL -o /tmp/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    install -m 555 /tmp/argocd-linux-amd64 "{{ argocd_cli_path }}"
+    rm -f /tmp/argocd-linux-amd64
+  become: true
+  args:
+    creates: "{{ argocd_cli_path }}"
+
+- name: Install k9s
+  shell: curl -sS https://webinstall.dev/k9s | bash
+  args:
+    creates: /root/.local/bin/k9s

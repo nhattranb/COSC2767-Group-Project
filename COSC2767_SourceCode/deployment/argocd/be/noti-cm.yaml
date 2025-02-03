@@ -1,0 +1,179 @@
+ #  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+# References:
+# https://www.linkedin.com/pulse/argocd-email-alerts-step-by-step-guide-real-time-monitoring-kumar-ujgpc/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  context: |
+    argocdUrl: https://a5e2780fbbff5446aa7368be21810d67-1971967865.us-east-1.elb.amazonaws.com/applications/argocd/apps?view=tree&resource=
+
+  service.email: |
+    username: postmaster@sandbox80d8eda7b7c54a68882929ffa00d004e.mailgun.org
+    password: e3ef9e128106360dc7670dccd513f708-191fb7b6-0e3d5857
+    host: smtp.mailgun.org
+    port: 587
+    from: DevOpsTeam1@rmit.edu.vn
+
+  template.app-status-change: |
+    email:
+      subject: 🚨 [RMIT DevOps] ArgoCD Alert - {{.app.metadata.name}} - Status Change
+      body: |
+        🔔 Application Status Update 🔔
+    
+        📁 Application: {{.app.metadata.name}}
+        🌐 Namespace: {{.app.spec.destination.namespace}}
+        🔗 Git Commit: {{if .app.status.operationState.operation.sync.revision}}{{.app.status.operationState.operation.sync.revision | trunc 7}}{{else}}N/A{{end}}
+        🔄 Sync Status: {{if eq .app.status.sync.status "Synced"}}✅{{else}}⚠️{{end}} {{.app.status.sync.status}}
+        💓 Health Status: {{if eq .app.status.health.status "Healthy"}}✅{{else}}⚠️{{end}} {{.app.status.health.status}}
+    
+        📊 Detailed Status:
+        {{range .app.status.resources}}
+        - {{.kind}} {{.name}}: {{.status}} {{if .health}} (Health: {{if eq .health.status "Healthy"}}✅{{else}}⚠️{{end}} {{.health.status}}){{end}}
+        {{- end}}
+    
+        {{if .app.status.conditions}}
+        🚩 Conditions:
+        {{range .app.status.conditions}}
+        - {{.type}}: {{.message}}
+        {{- end}}
+        {{end}}
+    
+        🔍 View in ArgoCD: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+    
+        This is an automated message from RMIT DevOps Team
+        🕒 Timestamp: {{.time.Now | date "2006-01-02 15:04:05 UTC"}}
+
+  template.resource-deleted: |
+    email:
+      subject: 🗑️ DevOps project ArgoCD Alert - {{.app.metadata.name}} - Resource Deletion
+      body: |
+        ⚠️ Critical Resource Deleted ⚠️
+    
+        📁 Application: {{.app.metadata.name}}
+        🌐 Namespace: {{.app.spec.destination.namespace}}
+        📦 Deleted Resource: {{.resource.kind}}/{{.resource.name}}
+    
+        📊 Current Application Resources:
+        {{range .app.status.resources}}
+        - {{.kind}} {{.name}}: {{.status}}{{if .health}} (Health: {{.health.status}}){{end}}
+        {{- end}}
+    
+        {{if .app.status.conditions}}
+        🚩 Application Conditions:
+        {{range .app.status.conditions}}
+        - {{.type}}: {{.message}}
+        {{- end}}
+        {{end}}
+    
+        🔍 View in ArgoCD: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+    
+        This is an automated message from RMIT Team
+        🕒 Timestamp: {{.time.Now | date "2006-01-02 15:04:05 UTC"}}
+
+  template.resource-scaled: |
+    email:
+      subject: 📈[RMIT DevOps] ArgoCD Alert - {{.app.metadata.name}} - Resource Scaled
+      body: |
+        🔢 Resource Scaling Event 🔢
+    
+        📁 Application: {{.app.metadata.name}}
+        🌐 Namespace: {{.app.spec.destination.namespace}}
+        📦 Scaled Resource: {{.resource.kind}}/{{.resource.name}}
+        🔢 Old Replicas: {{.resource.state.live.spec.replicas}}
+        🔢 New Replicas: {{.resource.state.target.spec.replicas}}
+    
+        📊 Current Application Resources:
+        {{range .app.status.resources}}
+        - {{.kind}} {{.name}}: {{.status}}{{if .health}} (Health: {{.health.status}}){{end}}
+        {{- end}}
+    
+        {{if .app.status.conditions}}
+        🚩 Application Conditions:
+        {{range .app.status.conditions}}
+        - {{.type}}: {{.message}}
+        {{- end}}
+        {{end}}
+    
+        🔍 View in ArgoCD: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+    
+        This is an automated message from RMIT DevOps Team
+        🕒 Timestamp: {{.time.Now | date "2006-01-02 15:04:05 UTC"}}
+
+  template.pod-crash-loop: |
+    email:
+      subject: 🔄 RMIT DevOpsArgoCD Alert - {{.app.metadata.name}} - Pod CrashLoopBackOff
+      body: |
+        🚨 Pod CrashLoopBackOff Detected 🚨
+    
+        📁 Application: {{.app.metadata.name}}
+        🌐 Namespace: {{.app.spec.destination.namespace}}
+        📦 Affected Pod: {{.resource.name}}
+    
+        📊 Pod Details:
+        - Status: {{.resource.status.phase}}
+        - Restart Count: {{index .resource.status.containerStatuses 0 "restartCount"}}
+        - Last State Exit Code: {{index .resource.status.containerStatuses 0 "lastState" "terminated" "exitCode"}}
+        - Last State Reason: {{index .resource.status.containerStatuses 0 "lastState" "terminated" "reason"}}
+    
+        🔍 View in ArgoCD: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+    
+        This is an automated message from RMIT DevOps Team
+        🕒 Timestamp: {{.time.Now | date "2006-01-02 15:04:05 UTC"}}
+
+  trigger.on-sync-status-change: |
+    - when: app.status.sync.status != 'Synced'
+      send: [app-status-change]
+
+  trigger.on-health-status-change: |
+    - when: app.status.health.status != 'Healthy'
+      send: [app-status-change]
+
+  trigger.on-operation-running: |
+    - when: app.status.operationState.phase in ['Running']
+      send: [app-status-change]
+
+  trigger.on-operation-error: |
+    - when: app.status.operationState.phase in ['Error']
+      send: [app-status-change]
+
+  trigger.on-resource-deleted: |
+    - when: |
+        resource.state.live == null and
+        resource.state.target != null
+      send: [resource-deleted]
+
+  trigger.on-resource-scaled: |
+    - when: |
+        resource.state.live != null and
+        resource.state.target != null and
+        resource.state.live.spec.replicas != resource.state.target.spec.replicas
+      send: [resource-scaled]
+
+  trigger.on-pod-crash-loop: |
+    - when: |
+        resource.state.live != null and
+        resource.state.live.status.phase == 'Running' and
+        any(resource.state.live.status.containerStatuses, {.state.waiting.reason == 'CrashLoopBackOff'})
+      send: [pod-crash-loop]
+
+  subscriptions: |
+    - recipients:
+      - email:quynhethereal@gmail.com
+      triggers:
+      - on-sync-status-change
+      - on-health-status-change
+      - on-operation-running
+      - on-operation-error
+      - on-resource-deleted
+      - on-resource-scaled
+      - on-pod-crash-loop

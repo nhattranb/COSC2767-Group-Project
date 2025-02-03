@@ -1,0 +1,26 @@
+---
+- name: Deploy ArgoCD to EKS Cluster
+  hosts: eks_proxy
+  become: yes
+  vars_files:
+    - vars.yml
+
+  pre_tasks:
+    - name: Prerequisites tasks
+      include_tasks: pre_tasks.yml
+  tasks:
+     - name: Install ArgoCD
+       include_tasks: tasks/argocd_install.yml
+
+     - name: Configure ArgoCD
+       include_tasks: tasks/argocd_configure.yml
+
+     - name: Install argoCD rollouts
+       include_tasks: tasks/install_argocd_rollouts.yaml
+
+     - name: Setup Applications
+       include_tasks: tasks/argocd_apps.yml
+       when: setup_apps | default(false) | bool
+
+     - name: Install AWS Load Balancer Controller
+       include_tasks: tasks/install_ingress_controller.yaml

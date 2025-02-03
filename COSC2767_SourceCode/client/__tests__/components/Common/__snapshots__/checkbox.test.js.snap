@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox component renders correctly when checked 1`] = `
+<DocumentFragment>
+  <div
+    class="checkbox custom-icon "
+  >
+    <input
+      checked=""
+      class="input-checkbox"
+      id="test-checkbox"
+      name="test"
+      type="checkbox"
+    />
+    <label
+      for="test-checkbox"
+      type="submit"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox component renders correctly when disabled 1`] = `
+<DocumentFragment>
+  <div
+    class="checkbox custom-icon "
+  >
+    <input
+      class="input-checkbox"
+      id="test-checkbox"
+      name="test"
+      type="checkbox"
+    />
+    <label
+      for="test-checkbox"
+      type="submit"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox component renders correctly with custom className 1`] = `
+<DocumentFragment>
+  <div
+    class="checkbox custom-icon custom-class"
+  >
+    <input
+      class="input-checkbox"
+      id="test-checkbox"
+      name="test"
+      type="checkbox"
+    />
+    <label
+      for="test-checkbox"
+      type="submit"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="checkbox custom-icon "
+  >
+    <input
+      class="input-checkbox"
+      id="test-checkbox"
+      name="test"
+      type="checkbox"
+    />
+    <label
+      for="test-checkbox"
+      type="submit"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox component renders correctly with label 1`] = `
+<DocumentFragment>
+  <div
+    class="checkbox default-icon "
+  >
+    <input
+      class="input-checkbox"
+      id="test-checkbox"
+      name="test"
+      type="checkbox"
+    />
+    <label
+      for="test-checkbox"
+      type="submit"
+    >
+      Test Label
+    </label>
+  </div>
+</DocumentFragment>
+`;

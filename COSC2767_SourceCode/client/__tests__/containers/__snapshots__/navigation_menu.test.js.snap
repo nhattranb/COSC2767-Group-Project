@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavigationMenu component renders correctly for authenticated user 1`] = `
+<DocumentFragment>
+  <div
+    class="navigation-menu"
+  >
+    <div
+      class="menu-header"
+    />
+    <div
+      class="menu-body"
+    >
+      <div
+        class="container"
+      >
+        <h3
+          class="menu-title text-uppercase"
+        >
+          Shop By Category
+        </h3>
+        <nav
+          role="navigation"
+        >
+          <ul
+            class="menu-list"
+          />
+        </nav>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`NavigationMenu component renders correctly for unauthenticated user 1`] = `
+<DocumentFragment>
+  <div
+    class="navigation-menu"
+  >
+    <div
+      class="menu-header"
+    />
+    <div
+      class="menu-body"
+    >
+      <div
+        class="container"
+      >
+        <h3
+          class="menu-title text-uppercase"
+        >
+          Shop By Category
+        </h3>
+        <nav
+          role="navigation"
+        >
+          <ul
+            class="menu-list"
+          />
+        </nav>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`NavigationMenu component renders correctly with open menu 1`] = `
+<DocumentFragment>
+  <div
+    class="navigation-menu"
+  >
+    <div
+      class="menu-header"
+    >
+      <button
+        aria-label="close the menu"
+        class="input-btn md icon-only icon-left border-0"
+        style="border-radius: 3px;"
+        type="button"
+      >
+        <div
+          class="btn-icon"
+        >
+          <span
+            aria-hidden="true"
+            class="close-icon"
+          />
+        </div>
+      </button>
+    </div>
+    <div
+      class="menu-body"
+    >
+      <div
+        class="container"
+      >
+        <h3
+          class="menu-title text-uppercase"
+        >
+          Shop By Category
+        </h3>
+        <nav
+          role="navigation"
+        >
+          <ul
+            class="menu-list"
+          />
+        </nav>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

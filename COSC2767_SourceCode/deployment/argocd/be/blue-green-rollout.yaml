@@ -1,0 +1,57 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: be
+  labels:
+    app: be
+spec:
+  analysis:
+    # limits the number of successful analysis runs and experiments to be stored in a history
+    # Defaults to 5.
+    successfulRunHistoryLimit: 1
+    # limits the number of unsuccessful analysis runs and experiments to be stored in a history.
+    # Stages for unsuccessful: "Error", "Failed", "Inconclusive"
+    # Defaults to 5.
+    unsuccessfulRunHistoryLimit: 1
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: be
+  template:
+    metadata:
+      labels:
+        app: be
+    spec:
+      containers:
+        - name: be-img
+          #          image: quynhethereal/fe-client-devops-course:f68d6aa
+          #          image: quynhethereal/fe-client-devops-course:19055f5
+          image: quynhethereal/be-server-devops-course:3eda35f
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+  strategy:
+    blueGreen:
+      autoPromotionEnabled: true
+      activeService: be-svc
+      previewService: be-svc-staging
+      prePromotionAnalysis:
+        templates:
+          - templateName: be-health-check

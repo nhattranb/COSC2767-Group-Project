@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge component renders correctly with borderless and round props 1`] = `
+<DocumentFragment>
+  <span
+    class="custom-badge custom-badge-secondary"
+    style="border-radius: 0;"
+  >
+    Borderless Round Badge
+  </span>
+</DocumentFragment>
+`;
+
+exports[`Badge component renders correctly with custom className 1`] = `
+<DocumentFragment>
+  <span
+    class="custom-badge custom-class custom-badge-secondary"
+    style="border-radius: 3px;"
+  >
+    Custom Class Badge
+  </span>
+</DocumentFragment>
+`;
+
+exports[`Badge component renders correctly with danger variant 1`] = `
+<DocumentFragment>
+  <span
+    class="custom-badge custom-badge-danger"
+    style="border-radius: 3px;"
+  >
+    Danger Badge
+  </span>
+</DocumentFragment>
+`;
+
+exports[`Badge component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <span
+    class="custom-badge custom-badge-secondary"
+    style="border-radius: 3px;"
+  >
+    Default Badge
+  </span>
+</DocumentFragment>
+`;
+
+exports[`Badge component renders correctly with primary variant 1`] = `
+<DocumentFragment>
+  <span
+    class="custom-badge custom-badge-primary"
+    style="border-radius: 3px;"
+  >
+    Primary Badge
+  </span>
+</DocumentFragment>
+`;

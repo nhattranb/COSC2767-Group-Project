@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrandsPage component renders empty brands state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-page"
+  >
+    <div
+      data-testid="brand-list"
+    >
+      No brands
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsPage component renders error state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-page"
+  >
+    <div
+      data-testid="brand-list"
+    >
+      No brands
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsPage component renders loading state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-page"
+  >
+    <div
+      data-testid="brand-list"
+    >
+      No brands
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsPage component renders with brands correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-page"
+  >
+    <div
+      data-testid="brand-list"
+    >
+      No brands
+    </div>
+  </div>
+</DocumentFragment>
+`;

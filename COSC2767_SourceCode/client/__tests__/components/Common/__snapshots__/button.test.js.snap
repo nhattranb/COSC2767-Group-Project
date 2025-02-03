@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component renders correctly with borderless and round props 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-secondary md text-only icon-left border-0"
+    style="border-radius: 10px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with custom className 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-class custom-btn-secondary md text-only icon-left "
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with danger variant 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-danger md text-only icon-left "
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-secondary md text-only icon-left "
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with icon and text 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-secondary md with-icon icon-left "
+    style="border-radius: 3px;"
+    type="button"
+  >
+    <div
+      class="btn-icon"
+    >
+      <span>
+        Icon
+      </span>
+    </div>
+    <span
+      class="btn-text"
+    >
+      Button with Icon
+    </span>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with popover 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-secondary md text-only icon-left "
+    id="popover-undefined"
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with primary variant 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-primary md text-only icon-left "
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;
+
+exports[`Button component renders correctly with tooltip 1`] = `
+<DocumentFragment>
+  <button
+    class="input-btn custom-btn-secondary md text-only icon-left "
+    id="tooltip-undefined"
+    style="border-radius: 3px;"
+    type="button"
+  />
+</DocumentFragment>
+`;

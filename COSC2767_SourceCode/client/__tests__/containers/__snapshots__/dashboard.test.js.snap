@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard component renders admin dashboard correctly 1`] = `
+<DocumentFragment>
+  Admin Dashboard
+</DocumentFragment>
+`;
+
+exports[`Dashboard component renders customer dashboard correctly 1`] = `
+<DocumentFragment>
+  Customer Dashboard
+</DocumentFragment>
+`;
+
+exports[`Dashboard component renders disabled merchant account correctly 1`] = `
+<DocumentFragment>
+  Merchant Dashboard
+</DocumentFragment>
+`;
+
+exports[`Dashboard component renders loading state correctly 1`] = `
+<DocumentFragment>
+  LoadingIndicator
+</DocumentFragment>
+`;
+
+exports[`Dashboard component renders merchant dashboard correctly 1`] = `
+<DocumentFragment>
+  Merchant Dashboard
+</DocumentFragment>
+`;
+
+exports[`Dashboard component toggles dashboard menu correctly 1`] = `
+<DocumentFragment>
+  Customer Dashboard
+</DocumentFragment>
+`;

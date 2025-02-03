@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrandsShop component renders correctly for authenticated user 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-shop"
+  >
+    NotFound
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsShop component renders empty products state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-shop"
+  >
+    NotFound
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsShop component renders loading state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-shop"
+  >
+    LoadingIndicator
+  </div>
+</DocumentFragment>
+`;
+
+exports[`BrandsShop component renders with products correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="brands-shop"
+  >
+    <div
+      data-testid="product-list"
+    >
+      <div>
+        Product 1
+      </div>
+      <div>
+        Product 2
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

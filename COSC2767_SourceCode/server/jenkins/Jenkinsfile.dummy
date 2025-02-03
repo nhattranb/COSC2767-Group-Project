@@ -1,0 +1,127 @@
+// Not tested
+// Need to write separate scripts
+// Put here to see the pipeline of server only.
+
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'development'  // Default environment
+        NPM_CMD = 'npm'          // Command for npm
+    }
+
+    parameters {
+        booleanParam(name: 'RUN_INTEGRATION_TESTS', defaultValue: false, description: 'Run Integration Tests?')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    if (env.NODE_ENV == 'staging' || env.NODE_ENV == 'development') {
+                        echo 'Installing with dev dependencies...'
+                        sh "${NPM_CMD} install"
+                    } else {
+                        echo 'Installing production dependencies...'
+                        sh "${NPM_CMD} install --only=production"
+                    }
+                }
+            }
+        }
+
+        stage('Checkstyle') {
+            steps {
+                echo 'Running checkstyle... (Currently empty)'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                script {
+                    sh "${NPM_CMD} run test"
+                }
+            }
+        }
+
+        stage('Integration Tests') {
+            when {
+                expression { params.RUN_INTEGRATION_TESTS }
+            }
+            steps {
+                echo 'Running integration tests...'
+                script {
+                    sh "${NPM_CMD} run test:integration"
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    if (env.NODE_ENV == 'staging' || env.NODE_ENV == 'development') {
+                        echo 'Building for development...'
+                        sh "${NPM_CMD} run dev"
+                    } else {
+                        echo 'Building for production...'
+                        sh "${NPM_CMD} run build"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                environment name: 'NODE_ENV', value: 'production'
+            }
+            steps {
+                echo 'Deploying to production...'
+                // Replace this with your deployment logic
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up workspace...'
+            cleanWs()
+        }
+
+        success {
+            echo 'Pipeline completed successfully!'
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """<p>SUCCESS: Pipeline <b>${env.JOB_NAME}</b> (#${env.BUILD_NUMBER}) completed successfully.</p>
+                        <p>Check the details at: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+
+        unstable {
+            echo 'Pipeline completed with warnings!'
+            emailext(
+                subject: "UNSTABLE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """<p>UNSTABLE: Pipeline <b>${env.JOB_NAME}</b> (#${env.BUILD_NUMBER}) completed with warnings.</p>
+                        <p>Check the details at: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+
+        failure {
+            echo 'Pipeline failed. Sending email notification...'
+            emailext(
+                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """<p>FAILURE: Pipeline <b>${env.JOB_NAME}</b> (#${env.BUILD_NUMBER}) failed.</p>
+                        <p>Check the details at: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>""",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+            )
+        }
+    }
+}

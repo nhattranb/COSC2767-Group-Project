@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders SearchBar correctly 1`] = `
+<DocumentFragment>
+  <form
+    novalidate=""
+  >
+    <div
+      class="search-box inline-btn-box"
+    >
+      <div
+        class="input-text-block"
+      >
+        <input
+          autocomplete="off"
+          class="input-text search-box"
+          id="search"
+          name="search"
+          placeholder="Search"
+          type="text"
+          value=""
+        />
+        <button
+          class="input-btn custom-btn-primary md text-only icon-left "
+          style="border-radius: 3px;"
+          type="submit"
+        >
+          <span
+            class="btn-text"
+          >
+            Search
+          </span>
+        </button>
+      </div>
+    </div>
+  </form>
+</DocumentFragment>
+`;

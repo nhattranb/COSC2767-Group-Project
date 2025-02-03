@@ -1,0 +1,55 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: be-health-check
+spec:
+  metrics:
+    - name: backend-status-check
+      provider:
+        job:
+          spec:
+            backoffLimit: 1
+            template:
+              spec:
+                containers:
+                  - name: check-be-svc
+                    image: nicolaka/netshoot
+                    command:
+                      - sh
+                      - -c
+                    args:
+                      - |
+                        URL=http://be-svc-staging.production.svc.cluster.local:4000/api/category/list
+                        STATUS=$(curl -s -o /dev/null -w '%{http_code}' $URL)
+                        
+                        echo "HTTP status code: $STATUS"
+                        echo "HTTP response: $(curl -s $URL)"
+                        
+                        if [ $STATUS -eq 200 ]; then
+                            echo "PASS: HTTP status code is 200"
+                        else
+                            echo "FAIL: HTTP status code is not 200"
+                            exit 1
+                        fi
+                        
+                        
+                        CONTENT=$(curl -s $URL)
+                        echo "Response Content:"
+                        echo "$CONTENT"
+                        
+                        # Non-empty products means the backend to DB connection is working
+                        if echo "$CONTENT" | jq -e '.categories[] | select(.products | length > 0)' > /dev/null; then
+                            echo "PASS: At least one category has non-empty products"
+                        else
+                            echo "FAIL: All categories have empty products"
+                            exit 1
+                        fi
+                restartPolicy: Never

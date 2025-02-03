@@ -1,0 +1,145 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "CloudFormation template to create an EC2 instance with kubectl for EKS cluster management"
+
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+
+  VpcCidr:
+    Type: String
+    Default: 172.31.0.0/16
+    Description: CIDR block for the VPC.
+
+  JenkinsMasterInstanceType:
+    Type: String
+    Default: t2.micro
+    Description: Instance type for Jenkins Master
+
+  JenkinsSlaveInstanceType:
+    Type: String
+    Default: t2.micro
+    Description: Instance type for Jenkins Slave
+
+Resources:
+  # PublicSubnet -> SubnetRouteTable Association <- RouteTable
+  # RouteTable -> Public Route <-  InternetGateway
+  # InternetGateway -> VPCGatewayAttachment <- VPC
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetJenkin
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  PublicSubnetJenkin:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 172.31.1.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+
+  JenkinsMasterSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Jenkins master
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0 # Allow all inbound traffic from anywhere
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0 # Allow all outbound traffic
+
+  JenkinsSlaveSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Jenkins Slave
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0 # Allow all inbound traffic from anywhere
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0 # Allow all outbound traffic
+
+  JenkinsMasterInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref JenkinsMasterInstanceType
+      ImageId: ami-05576a079321f21f8 # Amazon Linux 2023 AMI 2023.6.20250107.0 x86_64 HVM kernel-6.1 (default AWS Linux)
+      KeyName: !Ref KeyName
+      SubnetId: !Ref PublicSubnetJenkin
+      SecurityGroupIds:
+        - !Ref JenkinsMasterSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Jenkins-Master
+
+  JenkinsSlaveInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref JenkinsSlaveInstanceType
+      ImageId: ami-005fc0f236362e99f # Canonical, Ubuntu, 22.04 LTS, amd64 jammy image build on 2024-09-27
+      KeyName: !Ref KeyName
+      SubnetId: !Ref PublicSubnetJenkin
+      SecurityGroupIds:
+        - !Ref JenkinsSlaveSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Jenkins-Slave
+
+Outputs:
+  JenkinsMasterPublicIp:
+    Description: Public IP of the Jenkins master instance
+    Value: !GetAtt JenkinsMasterInstance.PublicIp
+
+  JenkinsSlavePublicIp:
+    Description: Public IP of the Jenkins Slave instance
+    Value: !GetAtt JenkinsSlaveInstance.PublicIp

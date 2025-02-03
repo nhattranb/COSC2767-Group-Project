@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropdownConfirm component renders correctly with children 1`] = `
+<DocumentFragment>
+  <div
+    class="dropdown-confirm undefined"
+  >
+    <div>
+      <button>
+        <div
+          class="dropdown-action sm"
+        >
+          <span
+            class="fa fa-chevron-down dropdown-caret"
+          />
+        </div>
+      </button>
+      <div>
+        <p>
+          Additional content
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DropdownConfirm component renders correctly with custom className 1`] = `
+<DocumentFragment>
+  <div
+    class="dropdown-confirm custom-class"
+  >
+    <div>
+      <button>
+        <div
+          class="dropdown-action sm"
+        >
+          <span
+            class="fa fa-chevron-down dropdown-caret"
+          />
+        </div>
+      </button>
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DropdownConfirm component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="dropdown-confirm undefined"
+  >
+    <div>
+      <button>
+        <div
+          class="dropdown-action sm"
+        >
+          <span
+            class="fa fa-chevron-down dropdown-caret"
+          />
+        </div>
+      </button>
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`DropdownConfirm component renders correctly with label 1`] = `
+<DocumentFragment>
+  <div
+    class="dropdown-confirm undefined"
+  >
+    <div>
+      <button>
+        <div
+          class="dropdown-action sm"
+        >
+          Test Label
+          <span
+            class="fa fa-chevron-down dropdown-caret"
+          />
+        </div>
+      </button>
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;

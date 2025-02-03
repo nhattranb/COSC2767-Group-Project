@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Brand component renders brand dashboard for admin user 1`] = `
+<DocumentFragment>
+  <div
+    class="brand-dashboard"
+  >
+    Page404 Component
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Brand component renders brand dashboard for regular user 1`] = `
+<DocumentFragment>
+  <div
+    class="brand-dashboard"
+  >
+    Page404 Component
+  </div>
+</DocumentFragment>
+`;

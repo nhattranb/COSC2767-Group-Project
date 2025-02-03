@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Newsletter component renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="newsletter-form"
+  >
+    <p>
+      Subscribe to Our Newsletter
+    </p>
+    <form>
+      <div
+        class="subscribe"
+      >
+        <div
+          class="input-box inline-btn-box "
+        >
+          <div
+            class="input-text-block"
+          >
+            <input
+              autocomplete="on"
+              class="input-text"
+              name="email"
+              placeholder="Enter Your Email Address"
+              type="text"
+              value=""
+            />
+            <button
+              class="input-btn custom-btn-primary md text-only icon-left "
+              style="border-radius: 3px;"
+              type="submit"
+            >
+              <span
+                class="btn-text"
+              >
+                Join Now
+              </span>
+            </button>
+          </div>
+          <span
+            class="invalid-message"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Newsletter component renders subscribed state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="newsletter-form"
+  >
+    <p>
+      Subscribe to Our Newsletter
+    </p>
+    <form>
+      <div
+        class="subscribe"
+      >
+        <div
+          class="input-box inline-btn-box "
+        >
+          <div
+            class="input-text-block"
+          >
+            <input
+              autocomplete="on"
+              class="input-text"
+              name="email"
+              placeholder="Enter Your Email Address"
+              type="text"
+              value="test@example.com"
+            />
+            <button
+              class="input-btn custom-btn-primary md text-only icon-left "
+              style="border-radius: 3px;"
+              type="submit"
+            >
+              <span
+                class="btn-text"
+              >
+                Join Now
+              </span>
+            </button>
+          </div>
+          <span
+            class="invalid-message"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

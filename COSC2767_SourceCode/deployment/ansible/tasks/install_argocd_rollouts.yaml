@@ -1,0 +1,20 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Install argoCD rollouts
+  shell: |
+    /root/bin/kubectl create namespace argo-rollouts
+    /root/bin/kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
+
+- name: Test installation
+  shell: |
+    /root/bin/kubectl get crd rollouts.argoproj.io
+    /root/bin/kubectl get pods -n argo-rollouts
+  register: argo_rollouts_install_result
+  until: argo_rollouts_install_result is not failed

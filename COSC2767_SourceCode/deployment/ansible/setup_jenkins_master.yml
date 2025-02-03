@@ -1,0 +1,62 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Jenkins Server Setup
+  hosts: jenkins_master
+  become: yes
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Increase /tmp directory size
+      mount:
+        path: /tmp
+        src: tmpfs
+        fstype: tmpfs
+        opts: defaults,size=3G
+        state: mounted
+
+    - name: Install packages
+      package:
+        name:
+          - fontconfig
+          - java-17-amazon-corretto
+          - git
+        state: present
+
+    - name: Add Jenkins repository - Download repo file
+      command: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      args:
+        creates: /etc/yum.repos.d/jenkins.repo
+
+    - name: Add Jenkins repository - Import GPG key
+      command: rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+      args:
+        creates: /etc/pki/rpm-gpg/RPM-GPG-KEY-jenkins
+
+    - name: Install Jenkins
+      package:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Get Jenkins initial admin password
+      command: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: jenkins_initial_password
+
+    - name: Output Jenkins information
+      debug:
+        msg: |
+          Jenkins Initial Admin Password: {{ jenkins_initial_password.stdout }}
+          Jenkins Port: 8080

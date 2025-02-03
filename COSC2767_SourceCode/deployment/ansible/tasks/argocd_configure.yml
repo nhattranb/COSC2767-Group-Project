@@ -1,0 +1,54 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Get ArgoCD Server URL
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    name: argocd-server
+    namespace: "{{ argocd_namespace }}"
+  register: argocd_service
+
+- name: Wait for LoadBalancer to get external IP
+  pause:
+    seconds: 10
+  when: argocd_service.resources[0].status.loadBalancer.monitoring-ingress.yaml is not defined
+
+- name: Get ArgoCD Admin Initial Password
+  command: argocd admin initial-password --namespace {{ argocd_namespace }}
+  register: app_initial_password
+  changed_when: false
+
+- name: Login to ArgoCD
+  command: >
+    argocd login 
+    {{ argocd_service.resources[0].status.loadBalancer.ingress[0].hostname }}
+    --username admin 
+    --password {{ app_initial_password.stdout_lines[0] }} 
+    --insecure
+  # This will fail on 2nd run, but it's okay
+  ignore_errors: true
+
+- name: Update ArgoCD admin password
+  command: >
+    argocd account update-password 
+    --current-password {{ app_initial_password.stdout_lines[0] }} 
+    --new-password {{ app_password }}
+  # This will fail on 2nd run, but it's okay
+  ignore_errors: true
+
+- name: Login to ArgoCD with new password
+  command: >
+    argocd login 
+    {{ argocd_service.resources[0].status.loadBalancer.ingress[0].hostname }}
+    --username admin 
+    --password {{ app_password }}
+    --insecure
+  # This will fail on 2nd run, but it's okay
+  ignore_errors: true

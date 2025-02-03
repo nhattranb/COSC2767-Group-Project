@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountSecurity component renders correctly with empty form 1`] = `
+<DocumentFragment>
+  <div
+    class="account-security"
+  >
+    <div
+      class="sub-page"
+    >
+      <div
+        class="subpage-header"
+      >
+        <h3
+          class="mb-0"
+        >
+          Account Security
+        </h3>
+      </div>
+      <div
+        class="subpage-body"
+      >
+        <div
+          class="reset-form"
+        >
+          <h4>
+            Reset Password
+          </h4>
+          <div
+            class="reset-password-form"
+          >
+            <form
+              novalidate=""
+            >
+              <div
+                class="row"
+              >
+                <div
+                  class="col-12 col-lg-6"
+                >
+                  <div
+                    class="input-box "
+                  >
+                    <label>
+                      Password
+                    </label>
+                    <div
+                      class="input-text-block"
+                    >
+                      <input
+                        autocomplete="on"
+                        class="input-text"
+                        name="password"
+                        placeholder="Old Password"
+                        type="password"
+                        value=""
+                      />
+                    </div>
+                    <span
+                      class="invalid-message"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="col-12 col-lg-6"
+                >
+                  <div
+                    class="input-box "
+                  >
+                    <label>
+                      Confirm Password
+                    </label>
+                    <div
+                      class="input-text-block"
+                    >
+                      <input
+                        autocomplete="on"
+                        class="input-text"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        type="password"
+                        value=""
+                      />
+                    </div>
+                    <span
+                      class="invalid-message"
+                    />
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div
+                class="reset-actions"
+              >
+                <button
+                  class="input-btn custom-btn-secondary md text-only icon-left "
+                  style="border-radius: 3px;"
+                  type="submit"
+                >
+                  <span
+                    class="btn-text"
+                  >
+                    Reset Password
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`AccountSecurity component renders correctly with form errors 1`] = `
+<DocumentFragment>
+  <div
+    class="account-security"
+  >
+    <div
+      class="sub-page"
+    >
+      <div
+        class="subpage-header"
+      >
+        <h3
+          class="mb-0"
+        >
+          Account Security
+        </h3>
+      </div>
+      <div
+        class="subpage-body"
+      >
+        <div
+          class="reset-form"
+        >
+          <h4>
+            Reset Password
+          </h4>
+          <div
+            class="reset-password-form"
+          >
+            <form
+              novalidate=""
+            >
+              <div
+                class="row"
+              >
+                <div
+                  class="col-12 col-lg-6"
+                >
+                  <div
+                    class="input-box invalid"
+                  >
+                    <label>
+                      Password
+                    </label>
+                    <div
+                      class="input-text-block"
+                    >
+                      <input
+                        autocomplete="on"
+                        class="input-text"
+                        name="password"
+                        placeholder="Old Password"
+                        type="password"
+                        value=""
+                      />
+                    </div>
+                    <span
+                      class="invalid-message"
+                    >
+                      P
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="col-12 col-lg-6"
+                >
+                  <div
+                    class="input-box invalid"
+                  >
+                    <label>
+                      Confirm Password
+                    </label>
+                    <div
+                      class="input-text-block"
+                    >
+                      <input
+                        autocomplete="on"
+                        class="input-text"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        type="password"
+                        value=""
+                      />
+                    </div>
+                    <span
+                      class="invalid-message"
+                    >
+                      P
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div
+                class="reset-actions"
+              >
+                <button
+                  class="input-btn custom-btn-secondary md text-only icon-left "
+                  style="border-radius: 3px;"
+                  type="submit"
+                >
+                  <span
+                    class="btn-text"
+                  >
+                    Reset Password
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

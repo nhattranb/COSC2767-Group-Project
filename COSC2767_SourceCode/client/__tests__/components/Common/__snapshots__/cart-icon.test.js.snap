@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CartIcon component renders correctly with custom className 1`] = `
+<DocumentFragment>
+  <button
+    aria-label="your cart is empty"
+    class="input-btn custom-class md icon-only icon-left border-0"
+    style="border-radius: 3px;"
+    type="button"
+  >
+    <div
+      class="btn-icon"
+    >
+      <span
+        class="cart-icon"
+      >
+        <span>
+          BagIcon
+        </span>
+      </span>
+    </div>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`CartIcon component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <button
+    aria-label="your cart is empty"
+    class="input-btn md icon-only icon-left border-0"
+    style="border-radius: 3px;"
+    type="button"
+  >
+    <div
+      class="btn-icon"
+    >
+      <span
+        class="cart-icon"
+      >
+        <span>
+          BagIcon
+        </span>
+      </span>
+    </div>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`CartIcon component renders correctly with items in the cart 1`] = `
+<DocumentFragment>
+  <button
+    aria-label="your cart have 3 items"
+    class="input-btn md icon-only icon-left border-0"
+    style="border-radius: 3px;"
+    type="button"
+  >
+    <div
+      class="btn-icon"
+    >
+      <span
+        class="cart-icon"
+      >
+        <span>
+          BagIcon
+        </span>
+        <span
+          class="cart-badge"
+        >
+          3
+        </span>
+      </span>
+    </div>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`CartIcon component renders correctly with more than 99 items in the cart 1`] = `
+<DocumentFragment>
+  <button
+    aria-label="your cart have 100 items"
+    class="input-btn md icon-only icon-left border-0"
+    style="border-radius: 3px;"
+    type="button"
+  >
+    <div
+      class="btn-icon"
+    >
+      <span
+        class="cart-icon"
+      >
+        <span>
+          BagIcon
+        </span>
+        <span
+          class="cart-badge"
+        >
+          99+
+        </span>
+      </span>
+    </div>
+  </button>
+</DocumentFragment>
+`;

@@ -1,0 +1,93 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "CloudFormation template to create an EC2 instance with kubectl for EKS cluster management"
+
+Parameters:
+  EksClusterName:
+    Type: String
+    Default: MyEKSCluster
+    Description: Name of the EKS cluster to connect to
+
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID where the EC2 instance will be launched
+
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subnet ID where the EC2 instance will be launched
+
+Resources:
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: EC2InstanceProfile
+      Roles:
+        - LabRole
+
+  ManagementSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for management EC2 instance
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+  ManagementInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-01816d07b1128cd2d
+      KeyName: !Ref KeyName
+      SubnetId: !Ref SubnetId
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      SecurityGroupIds:
+        - !Ref ManagementSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EksClusterName}-Proxy
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+
+          yum update -y
+
+          mkdir -p $HOME/bin
+          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+
+          aws eks update-kubeconfig --name ${EksClusterName} --region us-east-1
+          aws eks create-addon \
+            --cluster-name ${EksClusterName} \
+            --addon-name aws-ebs-csi-driver
+          
+          aws eks create-addon \
+            --cluster-name ${EksClusterName} \
+            --addon-name metrics-server
+
+Outputs:
+  ManagementInstanceId:
+    Description: ID of the Management EC2 instance
+    Value: !Ref ManagementInstance
+
+  ManagementInstancePublicIp:
+    Description: Public IP of the Management EC2 instance
+    Value: !GetAtt ManagementInstance.PublicIp

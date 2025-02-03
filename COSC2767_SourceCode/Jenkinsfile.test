@@ -1,0 +1,206 @@
+/*
+ *   RMIT University Vietnam
+ *   Course: COSC2767 Systems Deployment and Operations
+ *   Semester: 2024C
+ *   Assessment: Assignment 2
+ *   Author: Le Dinh Ngoc Quynh
+ *   ID: s3791159
+ *   Created  date: 21 Dec 2024
+ *   Last modified: 21 Dec 2024
+ */
+
+def getRepoURL() {
+  sh "git config --get remote.origin.url > .git/remote-url"
+  return readFile(".git/remote-url").trim()
+}
+
+def getCommitSha() {
+  sh "git rev-parse HEAD > .git/current-commit"
+  return readFile(".git/current-commit").trim()
+}
+
+def updateGithubCommitStatus(build) {
+  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
+  repoUrl = getRepoURL()
+  commitSha = getCommitSha()
+
+  step([
+    $class: 'GitHubCommitStatusSetter',
+    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+    statusResultSource: [
+      $class: 'ConditionalStatusResultSource',
+      results: [
+        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
+        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
+        [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+      ]
+    ]
+  ])
+}
+
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'Node 16'
+    }
+
+    environment {
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-credentials'  //
+        DOCKER_HUB_FE_REPO = 'quynhethereal/fe-client-devops-course'  //
+        DOCKER_HUB_BE_REPO = 'quynhethereal/be-server-devops-course'  //
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Running Checkout stage...'
+
+                checkout scmGit(branches: [[ name: env.BRANCH_NAME ]], extensions: [], userRemoteConfigs: [[credentialsId: 'ssh-key-github', url: 'git@github.com:RMIT-Vietnam-Teaching/cosc2767-assignment-2-group-2024c-devops-team-1.git']])
+            }
+        }
+
+        stage('Build FE') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run FE Tests') {
+            steps {
+                script {
+                    echo 'Running tests in the client directory...'
+                    dir('client') {
+                        sh 'npm run test' // Run the tests
+                    }
+                }
+            }
+        }
+
+        stage('Build BE') {
+            steps {
+                script {
+                    echo 'Installing server dependencies...'
+                    dir('server') {
+                        sh 'npm update'
+                        sh 'npm install'
+                    }
+                }
+            }
+        }
+
+        stage('Run BE Tests') {
+            steps {
+                 script {
+                     echo 'Running tests in the server directory...'
+                     dir('server') {
+                         sh 'npm test' // Run backend tests
+                    }
+                }
+            }
+        }
+        stage('Docker Compose Up') {
+            steps {
+                script {
+                    echo 'Starting services with Docker Compose...'
+                    // Wait for docker-compose up to complete before proceeding
+                    sh 'NODE_ENV=development docker compose up -d --wait'
+                }
+            }
+        }
+
+        stage('Run Integration Tests') {
+            steps {
+                script {
+                    try {
+                        echo 'Running frontend integration tests...'
+                        dir('server') {
+                            sh 'npm run test:integration'
+                        }
+                    } finally {
+                        // Clean up - bring down docker compose services
+                        sh 'docker compose down'
+                    }
+                }
+            }
+        }
+
+        stage('Build and push FE Image') {
+            steps {
+                script {
+                    echo 'Building the Docker image for the client...'
+                    dir('client') {
+                        def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                        echo "Commit hash: ${commitHash}"
+
+                        def timestamp = sh(script: 'date +%s', returnStdout: true).trim()
+                        echo "Timestamp: ${timestamp}"
+
+                        // Build the Docker image with the commit hash as the tag
+                        sh """
+                            docker build -t "${DOCKER_HUB_FE_REPO}:${commitHash}" -t "${DOCKER_HUB_FE_REPO}:latest" --build-arg BUILD_TIMESTAMP=${timestamp} --build-arg VERSION=${commitHash}  --build-arg NODE_ENV=production .
+                        """
+
+                        echo 'Pushing the client Docker image to Docker Hub...'
+
+                        withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                            sh """
+                                echo ${DOCKER_HUB_CREDENTIALS} | docker login -u quynhethereal --password-stdin
+                                docker push ${DOCKER_HUB_FE_REPO} --all-tags
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+
+        stage('Build and push BE Image') {
+            steps {
+                script {
+                    echo 'Building the Docker image for the server...'
+                    dir('server') {
+                        def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                        echo "Commit hash: ${commitHash}"
+
+                        // Build the Docker image with the commit hash as the tag
+                        sh """
+                            docker build -t "${DOCKER_HUB_BE_REPO}:${commitHash}" -t "${DOCKER_HUB_BE_REPO}:latest" .
+                        """
+
+                        echo 'Pushing the server Docker image to Docker Hub...'
+
+                        withCredentials([string(credentialsId: DOCKER_HUB_CREDENTIALS, variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                            sh """
+                                echo ${DOCKER_HUB_CREDENTIALS} | docker login -u quynhethereal --password-stdin
+                                docker push ${DOCKER_HUB_BE_REPO}   --all-tags
+                            """
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished!'
+            sh 'docker compose down'
+        }
+
+        success {
+            updateGithubCommitStatus(currentBuild);
+            cleanWs();
+            sh 'sudo docker system prune -a -f';
+
+        }
+        failure {
+            updateGithubCommitStatus(currentBuild);
+            cleanWs();
+            sh 'sudo docker system prune -a -f';
+
+        }
+    }
+}

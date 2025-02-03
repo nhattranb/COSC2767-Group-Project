@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComingSoon component renders correctly with children 1`] = `
+<DocumentFragment>
+  <div
+    class="coming-soon"
+  >
+    <h3>
+      Coming soon
+    </h3>
+    <p>
+      Additional content
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ComingSoon component renders correctly with default props 1`] = `
+<DocumentFragment>
+  <div
+    class="coming-soon"
+  >
+    <h3>
+      Coming soon
+    </h3>
+  </div>
+</DocumentFragment>
+`;

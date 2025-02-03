@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountDetails component snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="account-details"
+  >
+    <div
+      class="info"
+    >
+      <div
+        class="desc"
+      >
+        <p
+          class="one-line-ellipsis mr-3"
+        >
+          test@example.com
+        </p>
+        <span
+          class="custom-badge custom-badge-secondary"
+          style="border-radius: 3px;"
+        >
+          Member
+        </span>
+      </div>
+    </div>
+    <form>
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              First Name
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="firstName"
+                placeholder="Please Enter Your First Name"
+                type="text"
+                value="John"
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Last Name
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="lastName"
+                placeholder="Please Enter Your Last Name"
+                type="text"
+                value="Doe"
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-12"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Phone Number
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="phoneNumber"
+                placeholder="Please Enter Your Phone Number"
+                type="text"
+                value="1234567890"
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="profile-actions"
+      >
+        <button
+          class="input-btn custom-btn-secondary md text-only icon-left "
+          style="border-radius: 3px;"
+          type="submit"
+        >
+          <span
+            class="btn-text"
+          >
+            Save changes
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

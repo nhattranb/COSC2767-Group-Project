@@ -1,0 +1,20 @@
+---
+ssh_key_path: "~/.ssh/id_rsa"
+github_https_key_path: "~/keys/github_https_key"
+argocd_cli_path: "/usr/local/bin/argocd"
+temp_manifest_file: "/tmp/argocd_install.yaml"
+
+# Kubernetes config
+kubeconfig_path: "~/.kube/config"
+
+# ArgoCD installation
+argocd_namespace: argocd
+argocd_manifest_url: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Optional app setup
+setup_apps: true
+repo_url: "https://github.com/RMIT-Vietnam-Teaching/cosc2767-assignment-2-group-2024c-devops-team-1.git"
+app_name: "apps"
+app_path: "deployment/argocd"
+app_namespace: "argocd"
+app_password: "admin123"

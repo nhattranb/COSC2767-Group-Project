@@ -1,0 +1,59 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+- name: Create argocd namespace
+  kubernetes.core.k8s:
+    name: "{{ argocd_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+  register: namespace_result
+  until: namespace_result is not failed
+
+- name: Download ArgoCD manifest
+  get_url:
+    url: "{{ argocd_manifest_url }}"
+    dest: "{{ temp_manifest_file }}"
+    mode: "0644"
+
+- name: Apply ArgoCD manifests
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ temp_manifest_file }}"
+    namespace: "{{ argocd_namespace }}"
+    validate:
+      strict: false
+
+- name: Clean up temporary manifest file
+  file:
+    path: "{{ temp_manifest_file }}"
+    state: absent
+
+- name: Wait for ArgoCD server deployment
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    name: argocd-server
+    namespace: "{{ argocd_namespace }}"
+    wait: yes
+    wait_timeout: 300
+  register: deployment_result
+  until: deployment_result.resources[0].status.readyReplicas is defined and deployment_result.resources[0].status.readyReplicas > 0
+
+- name: Patch ArgoCD server service to LoadBalancer
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: argocd-server
+        namespace: "{{ argocd_namespace }}"
+      spec:
+        type: LoadBalancer
+  register: patch_result

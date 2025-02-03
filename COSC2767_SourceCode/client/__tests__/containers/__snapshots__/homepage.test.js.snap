@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Homepage component renders loading state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="homepage"
+  >
+    <div
+      class="flex-row row"
+    >
+      <div
+        class="mb-3 px-3 px-md-2 col-12"
+      >
+        <div
+          class="home-carousel"
+        >
+          <div
+            class="react-multi-carousel-list carousel-container "
+          >
+            <ul
+              class="react-multi-carousel-track "
+              style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Homepage component renders with products correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="homepage"
+  >
+    <div
+      class="flex-row row"
+    >
+      <div
+        class="mb-3 px-3 px-md-2 col-12"
+      >
+        <div
+          class="home-carousel"
+        >
+          <div
+            class="react-multi-carousel-list carousel-container "
+          >
+            <ul
+              class="react-multi-carousel-track "
+              style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

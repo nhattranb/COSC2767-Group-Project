@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact component renders correctly with empty form 1`] = `
+<DocumentFragment>
+  <div
+    class="contact"
+  >
+    <h3
+      class="text-uppercase"
+    >
+      Contact Information
+    </h3>
+    <hr />
+    <form>
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Name
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="name"
+                placeholder="You Full Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Email
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="email"
+                placeholder="Your Email Address"
+                type="text"
+                value=""
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-12"
+        >
+          <div
+            class="input-box"
+          >
+            <label>
+              Message
+            </label>
+            <textarea
+              class="textarea-text"
+              name="message"
+              placeholder="Please Describe Your Message"
+              rows="4"
+              type="textarea"
+            />
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="contact-actions"
+      >
+        <button
+          class="input-btn custom-btn-secondary md text-only icon-left "
+          style="border-radius: 3px;"
+          type="submit"
+        >
+          <span
+            class="btn-text"
+          >
+            Submit
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Contact component renders correctly with form data 1`] = `
+<DocumentFragment>
+  <div
+    class="contact"
+  >
+    <h3
+      class="text-uppercase"
+    >
+      Contact Information
+    </h3>
+    <hr />
+    <form>
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Name
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="name"
+                placeholder="You Full Name"
+                type="text"
+                value="John Doe"
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box "
+          >
+            <label>
+              Email
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="email"
+                placeholder="Your Email Address"
+                type="text"
+                value="john@example.com"
+              />
+            </div>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-12"
+        >
+          <div
+            class="input-box"
+          >
+            <label>
+              Message
+            </label>
+            <textarea
+              class="textarea-text"
+              name="message"
+              placeholder="Please Describe Your Message"
+              rows="4"
+              type="textarea"
+            >
+              Test message
+            </textarea>
+            <span
+              class="invalid-message"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="contact-actions"
+      >
+        <button
+          class="input-btn custom-btn-secondary md text-only icon-left "
+          style="border-radius: 3px;"
+          type="submit"
+        >
+          <span
+            class="btn-text"
+          >
+            Submit
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Contact component renders correctly with form errors 1`] = `
+<DocumentFragment>
+  <div
+    class="contact"
+  >
+    <h3
+      class="text-uppercase"
+    >
+      Contact Information
+    </h3>
+    <hr />
+    <form>
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box invalid"
+          >
+            <label>
+              Name
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="name"
+                placeholder="You Full Name"
+                type="text"
+                value=""
+              />
+            </div>
+            <span
+              class="invalid-message"
+            >
+              N
+            </span>
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-6"
+        >
+          <div
+            class="input-box invalid"
+          >
+            <label>
+              Email
+            </label>
+            <div
+              class="input-text-block"
+            >
+              <input
+                autocomplete="on"
+                class="input-text"
+                name="email"
+                placeholder="Your Email Address"
+                type="text"
+                value=""
+              />
+            </div>
+            <span
+              class="invalid-message"
+            >
+              I
+            </span>
+          </div>
+        </div>
+        <div
+          class="col-12 col-md-12"
+        >
+          <div
+            class="input-box invalid"
+          >
+            <label>
+              Message
+            </label>
+            <textarea
+              class="textarea-text"
+              name="message"
+              placeholder="Please Describe Your Message"
+              rows="4"
+              type="textarea"
+            />
+            <span
+              class="invalid-message"
+            >
+              M
+            </span>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="contact-actions"
+      >
+        <button
+          class="input-btn custom-btn-secondary md text-only icon-left "
+          style="border-radius: 3px;"
+          type="submit"
+        >
+          <span
+            class="btn-text"
+          >
+            Submit
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

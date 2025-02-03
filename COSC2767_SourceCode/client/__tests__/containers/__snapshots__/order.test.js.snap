@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Order component renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="product-dashboard"
+  >
+    <div
+      class="page-404"
+    >
+      The page you are looking for was not found.
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Order component renders loading state correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="product-dashboard"
+  >
+    <div
+      class="page-404"
+    >
+      The page you are looking for was not found.
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Order component renders with orders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="product-dashboard"
+  >
+    <div
+      class="page-404"
+    >
+      The page you are looking for was not found.
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,49 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: fe
+  labels:
+    app: fe
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: fe
+  template:
+    metadata:
+      labels:
+        app: fe
+    spec:
+      containers:
+        - name: fe-img
+#          image: quynhethereal/fe-client-devops-course:f68d6aa
+#          image: quynhethereal/fe-client-devops-course:19055f5
+          image: quynhethereal/fe-client-devops-course:c4a1e7d
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+  strategy:
+    blueGreen:
+      autoPromotionEnabled: true
+      activeService: fe-svc
+      previewService: fe-svc-staging
+      prePromotionAnalysis:
+        templates:
+          - templateName: fe-health-check

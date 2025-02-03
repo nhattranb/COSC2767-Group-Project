@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application component renders correctly with authentication 1`] = `
+<DocumentFragment>
+  <div
+    class="application"
+  >
+    Notification ComponentNavigation Component
+    <main
+      class="main"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="homepage"
+          >
+            <div
+              class="flex-row row"
+            >
+              <div
+                class="mb-3 px-3 px-md-2 col-12"
+              >
+                <div
+                  class="home-carousel"
+                >
+                  <div
+                    class="react-multi-carousel-list carousel-container "
+                  >
+                    <ul
+                      class="react-multi-carousel-track "
+                      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    Footer Component
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Application component renders correctly without authentication 1`] = `
+<DocumentFragment>
+  <div
+    class="application"
+  >
+    Notification ComponentNavigation Component
+    <main
+      class="main"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="wrapper"
+        >
+          <div
+            class="homepage"
+          >
+            <div
+              class="flex-row row"
+            >
+              <div
+                class="mb-3 px-3 px-md-2 col-12"
+              >
+                <div
+                  class="home-carousel"
+                >
+                  <div
+                    class="react-multi-carousel-list carousel-container "
+                  >
+                    <ul
+                      class="react-multi-carousel-track "
+                      style="transition: none; overflow: unset; transform: translate3d(0px,0,0);"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    Footer Component
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,46 @@
+#  RMIT University Vietnam
+#  Course: COSC2767 Systems Deployment and Operations
+#  Semester: 2024C
+#  Assessment: Assignment 2
+#  Author: Le Dinh Ngoc Quynh
+#  ID: s3791159
+#  Created  date: 10 Jan 2025
+#  Last modified: 10 Jan 2025
+---
+
+- name: Define PAT
+  set_fact:
+    pat: "{{ lookup('file', github_https_key_path) }}"
+  when: github_https_key_path is defined
+
+- name: Connect to Git repository
+  command: >
+    argocd repo add {{ repo_url }} --username quynhethereal --password {{ pat }} --upsert
+  when: pat is defined
+
+#- name: Add repository to ArgoCD
+#  command: >
+#    argocd repo add {{ repo_url }}
+#    --ssh-private-key-path {{ ssh_key_path }}
+#  when: repo_url is defined
+
+- name: Create ArgoCD application
+  command: >
+    argocd app create {{ app_name }}
+    --repo {{ repo_url }}
+    --path {{ app_path }}
+    --dest-server https://kubernetes.default.svc
+    --dest-namespace {{ app_namespace }} --upsert
+  ignore_errors: true
+  when:
+    - app_name is defined
+    - repo_url is defined
+    - app_path is defined
+
+- name: Sync ArgoCD app
+  command: "argocd app sync {{ app_name }}"
+  register: app_create_result
+
+- name: Show app creation result
+  debug:
+    msg: "ArgoCD app create result: {{ app_create_result.stdout }}"
